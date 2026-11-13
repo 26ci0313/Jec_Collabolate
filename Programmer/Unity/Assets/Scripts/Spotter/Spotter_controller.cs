@@ -32,13 +32,6 @@ public class Spotter_controller : MonoBehaviour
             spoterstate = SpotterState.unarmed;
         }
     }
-    public void OnSpotterScan(InputValue value)
-    {
-        if (value.isPressed)//Scanƒ{ƒ^ƒ“‚ª‰Ÿ‚³‚ê‚½Žž
-        {
-            vision.ScanWeekPoint();
-        }
-    }
     private void Update()
     {
         if (spoterstate == SpotterState.Equipment)

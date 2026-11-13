@@ -9,10 +9,10 @@ public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
     private Camera cam;//カメラの情報
     private float normalFOV;//通常時の視野角
     [Header("スコープの画像")]
-    public Image targetImage;
+    public GameObject Image;
     private void Awake()
     {
-        targetImage.enabled = false;
+        Image.SetActive(false);
         //Main CameraのCameraコンポーネントを取得
         cam = GetComponent<Camera>();
 
@@ -22,7 +22,7 @@ public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
     public void ZoomIn()
     {
         //ズームインする
-        targetImage.enabled = true;
+        Image.SetActive(true);
         cam.fieldOfView = Mathf.Lerp(
             cam.fieldOfView,
             zoomFOV,
@@ -31,7 +31,7 @@ public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
     }
     public void ZoomOut()
     {
-        targetImage.enabled = false;
+        Image.SetActive(false);
         //通常の視野角に戻す
         cam.fieldOfView = Mathf.Lerp(
             cam.fieldOfView,

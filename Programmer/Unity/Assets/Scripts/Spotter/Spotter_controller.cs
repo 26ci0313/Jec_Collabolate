@@ -6,6 +6,7 @@ public class Spotter_controller : MonoBehaviour
 {
     public SpotterState spoterstate = SpotterState.unarmed;
     [SerializeField] Spotter_ZoomIn_ZoomOut ZoomCamera;
+    [SerializeField] Spotter_Vision vision;
     [Header("スコープ状態になるまでの前隙")]
     [SerializeField] private float beforescopeDeray = 0f;
     [Header("スコープ状態になるまでの後隙")]
@@ -15,6 +16,7 @@ public class Spotter_controller : MonoBehaviour
     {
         spoterstate = SpotterState.unarmed;
         ZoomCamera.GetComponent<Spotter_ZoomIn_ZoomOut>();
+        vision.GetComponent<Spotter_Vision>();
     }
 
     void OnSpotter(InputValue value)
@@ -28,6 +30,13 @@ public class Spotter_controller : MonoBehaviour
         {
             tmp = 0;
             spoterstate = SpotterState.unarmed;
+        }
+    }
+    public void OnSpotterScan(InputValue value)
+    {
+        if (value.isPressed)//Scanボタンが押された時
+        {
+            vision.ScanWeekPoint();
         }
     }
     private void Update()

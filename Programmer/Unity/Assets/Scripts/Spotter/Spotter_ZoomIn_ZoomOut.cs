@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
 {
@@ -7,8 +8,11 @@ public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
 
     private Camera cam;//カメラの情報
     private float normalFOV;//通常時の視野角
+    [Header("スコープの画像")]
+    public Image targetImage;
     private void Awake()
     {
+        targetImage.enabled = false;
         //Main CameraのCameraコンポーネントを取得
         cam = GetComponent<Camera>();
 
@@ -18,6 +22,7 @@ public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
     public void ZoomIn()
     {
         //ズームインする
+        targetImage.enabled = true;
         cam.fieldOfView = Mathf.Lerp(
             cam.fieldOfView,
             zoomFOV,
@@ -26,6 +31,7 @@ public class Spotter_ZoomIn_ZoomOut : MonoBehaviour
     }
     public void ZoomOut()
     {
+        targetImage.enabled = false;
         //通常の視野角に戻す
         cam.fieldOfView = Mathf.Lerp(
             cam.fieldOfView,

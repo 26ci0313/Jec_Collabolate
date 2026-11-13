@@ -1,0 +1,11 @@
+このReedMeはプログラマ向けです。
+
+実装した内容についてはGitのReedMeに書いてある通りです。
+追加スクリプト:TPSCamera・SpotterController・Spotter_ZoomIn_ZoomOutの3種類です。
+
+SpotterはenumでEquipment, unarmedの二種類で覗いている・覗いていないを管理しています。
+スポッターを起動するボタンの管理はPlayerInputで管理しているのでいつでも変更・修正ができます。
+
+登陽へ、TPSのカメラにするにあたって既存のCamera Followは外れてます。さらにその中にあったズームの処理はSpotter_ZoomIn_ZoomOutに移動してます。
+
+以上！

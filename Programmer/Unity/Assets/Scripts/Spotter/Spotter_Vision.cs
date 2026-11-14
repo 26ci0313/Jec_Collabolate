@@ -6,7 +6,6 @@ public class Spotter_Vision : MonoBehaviour
     [Header("レイの最大射程距離")]
     public float rayDistance = 100f;
     [SerializeField] Spotter_controller spotter;
-
     public void Update()
     {
         // 装備中（またはスキャン中）の状態のときのみ処理

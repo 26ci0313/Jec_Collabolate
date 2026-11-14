@@ -3,13 +3,14 @@ using UnityEngine.UI;
 
 public class Weak_Gauge_Contoroller : MonoBehaviour
 {
+    [SerializeField] BossClassAcces bossClass;
     [SerializeField] private Image gaugeImage;
 
     [SerializeField] private float addSpeed = 10f; // 増加量
+    float weakhidetime = 0;//仮置きの弱点の有効化が切れるまでの時間
 
     private float currentValue = 0f;
     private const float maxValue = 100f;          // 最大値
-
     public void AddAnalysis()
     {
         currentValue += Time.deltaTime * addSpeed;
@@ -28,9 +29,22 @@ public class Weak_Gauge_Contoroller : MonoBehaviour
         if (gaugeImage != null && currentValue >= maxValue)
         {
             Debug.Log("弱点解析成功");
-            currentValue = 20f; // 成功時のリセット値など
+            bossClass.boss.weakstate = BossClass.WeakState.ditected;
+            currentValue = 0f; // 成功時のリセット値
             UpdateGaugeUI();
         }
+        if (bossClass.boss.weakstate == BossClass.WeakState.ditected)
+        {
+            float hidetime = 3;
+            weakhidetime += Time.deltaTime;
+            if (weakhidetime > hidetime)
+            {
+                bossClass.boss.weakstate = BossClass.WeakState.hide;
+                weakhidetime = 0;
+                Debug.Log("弱点が戻ったよ");
+            }
+        }
+
     }
 
     // 外から値を直接設定する場合（0〜100の範囲）

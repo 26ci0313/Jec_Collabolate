@@ -12,15 +12,21 @@ public class Spotter_controller : MonoBehaviour
     [Header("スコープ状態になるまでの後隙")]
     [SerializeField] private float afterscopeDeray = 0f;
     private float tmp = 0f;
+    private PlayerClassAcces playerClass;
     void Awake()
     {
         spoterstate = SpotterState.unarmed;
-        ZoomCamera.GetComponent<Spotter_ZoomIn_ZoomOut>();
-        vision.GetComponent<Spotter_Vision>();
+        playerClass = GetComponent<PlayerClassAcces>();
     }
 
     void OnSpotter(InputValue value)
     {
+        // 死亡またはスタンの時は入力を一切受け付けない
+        if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
+        {
+            return;
+        }
+
         if (value.isPressed)//Spotterボタンが押された時
         {
             tmp = 0;
@@ -32,8 +38,18 @@ public class Spotter_controller : MonoBehaviour
             spoterstate = SpotterState.unarmed;
         }
     }
+
     private void Update()
     {
+        // 死亡またはスタンの時は強制的に解除して処理を終了する
+        if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
+        {
+            spoterstate = SpotterState.unarmed; // 状態もunarmedに強制リセット
+            ZoomCamera.ZoomOut();
+            tmp = 0; // タイマーもリセット
+            return;
+        }
+
         if (spoterstate == SpotterState.Equipment)
         {
             if (tmp > beforescopeDeray)
@@ -42,7 +58,7 @@ public class Spotter_controller : MonoBehaviour
             }
             tmp += Time.deltaTime;
         }
-        if (spoterstate == SpotterState.unarmed)
+        else if (spoterstate == SpotterState.unarmed) // ifからelse ifにして排他にすると安全です
         {
             if (tmp > afterscopeDeray)
             {

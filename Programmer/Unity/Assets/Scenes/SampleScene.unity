@@ -1865,6 +1865,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c85a130c71136f3468e5d40c5b77e450, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerstatus: {fileID: 11400000, guid: 7619cdc7366cc8e4f988d8b64a73b114, type: 2}
 --- !u!1 &1341457785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2839,6 +2840,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 379809789eb78ef4b9e62252db55938a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bossstatus: {fileID: 11400000, guid: 7d045cbec5344d044821dc45f69802f2, type: 2}
 --- !u!1 &2143922936
 GameObject:
   m_ObjectHideFlags: 0

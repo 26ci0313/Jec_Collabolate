@@ -17,6 +17,6 @@ public class DeBugText : MonoBehaviour
 
     void Update()
     {
-        debugUpDateData.text = "ボスの残りHP" + bossClass.boss.hp;
+        debugUpDateData.text = "ボスの残りHP" + bossClass.boss.hp + "\n" + "ボスの弱点" + bossClass.boss.weakstate;
     }
 }

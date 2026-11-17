@@ -10,7 +10,7 @@ public class Spotter_Vision : MonoBehaviour
     public void Update()
     {
         // 装備中（またはスキャン中）の状態のときのみ処理
-        if (spotter.spoterstate == SpotterState.Equipment && bossClass.boss.weakstate == BossClass.WeakState.hide)
+        if (spotter.spoterstate == SpotterState.Equipment)
         {
             // カメラの中央からレイを生成
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));

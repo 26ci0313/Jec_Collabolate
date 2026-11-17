@@ -26,7 +26,7 @@ public class Weak_Gauge_Contoroller : MonoBehaviour
 
     private void Update()
     {
-        if (gaugeImage != null && currentValue >= maxValue && bossClass.boss.weakstate == BossClass.WeakState.ditected)
+        if (gaugeImage != null && currentValue >= maxValue)
         {
             Debug.Log("弱点解析成功");
             bossClass.boss.weakstate = BossClass.WeakState.ditected;

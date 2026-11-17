@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d85bd0ddd9cb7448e8f6408fecfbf0, type: 3}
   m_Name: Player
   m_EditorClassIdentifier: 
-  scale: 1
+  scale: 2
   hp: 100
   atackpower: 10
   difensepower: 10

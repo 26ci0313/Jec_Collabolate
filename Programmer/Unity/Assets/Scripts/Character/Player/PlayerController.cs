@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
@@ -7,7 +8,7 @@ public class PlayerController : MonoBehaviour
     public float radius = 5f; // 円の外縁までの距離
     public float speed = 2f; // 円周を移動する速度
     private float angle; // 円周上の現在位置
-
+    [SerializeField] private float targetY = -0.9f;
     public PlayerClassAcces playerClass;
     void Start()
     {
@@ -83,5 +84,15 @@ public class PlayerController : MonoBehaviour
             transform.rotation = baseRotation * Quaternion.Euler(0f, yawOffset, 0f);
         }
         //-------------------------------------------------------------------------------------------------
+
+    }
+    void LateUpdate()
+    {
+        Vector3 currentPosition = transform.position;
+
+        // Y座標だけを強制的に固定値に書き換える
+        currentPosition.y = targetY;
+
+        transform.position = currentPosition;
     }
 }

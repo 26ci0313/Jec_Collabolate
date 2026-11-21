@@ -14,7 +14,13 @@ public class PlayerAnimController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        // €–S‚Ü‚½‚ÍƒXƒ^ƒ“‚Ì‚Í“ü—Í‚ğˆêØó‚¯•t‚¯‚È‚¢
+        if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
+        {
+            return;
+        }
         animator.SetBool("Wark", playerClass.player.state == PlayerClass.State.wark);
         animator.SetBool("Idol", playerClass.player.state == PlayerClass.State.normal);
+        animator.SetBool("Jump", playerClass.player.state == PlayerClass.State.jump);
     }
 }

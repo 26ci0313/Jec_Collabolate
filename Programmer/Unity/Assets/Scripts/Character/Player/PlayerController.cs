@@ -1,15 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using static UnityEngine.GraphicsBuffer;
 
 public class PlayerController : MonoBehaviour
 {
-    public Transform center; // 円の中心
-    public float radius = 5f; // 円の外縁までの距離
-    public float speed = 2f; // 円周を移動する速度
-    private float angle; // 円周上の現在位置
-    [SerializeField] private float targetY = -0.9f;
     public PlayerClassAcces playerClass;
+    public BossClassAcces bossClass;
+    private float angle; // 円周上の現在位置
+    private float targetY = -0.9f;
+    [SerializeField] private Transform center; // 円の中心
+    [Header("ボスからの半径")]
+    [SerializeField] private float radius = 40f;
+    [Header("基本の移動速度")]
+    [SerializeField] public float defaultwarkspeed = 1.0f;
+    [Header("攻撃頻度")]
+    [SerializeField] float attackSpan = 1;
+    [SerializeField] float delta = 0;
     void Start()
     {
         // プレイヤーと円の中心との位置の差を求める
@@ -17,8 +22,47 @@ public class PlayerController : MonoBehaviour
         // プレイヤーの初期位置から、円周上の角度を求める
         angle = Mathf.Atan2(offset.z, offset.x);
         playerClass = GetComponent<PlayerClassAcces>();
+        playerClass.player.speed = defaultwarkspeed;
     }
-
+    void OnSprint(InputValue value)
+    {
+        // 死亡またはスタンの時は入力を一切受け付けない
+        if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
+        {
+            return;
+        }
+        if (playerClass.player.spoterstate != PlayerClass.SpotterState.Equipment)
+        {
+            if (value.isPressed)//Spotterボタンが押された時
+            {
+                playerClass.player.speed = defaultwarkspeed * 1.3f;
+            }
+            else//Spotterボタンが離された時
+            {
+                playerClass.player.speed = defaultwarkspeed;
+            }
+        }
+    }
+    void OnAttack(InputValue value)
+    {
+        // 死亡またはスタンの時は入力を一切受け付けない
+        if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
+        {
+            return;
+        }
+        if (value.isPressed)//Attackボタンが押された時
+        {
+            //攻撃のステータスを入れ替える
+            if (playerClass.player.attackState == PlayerClass.AttackState.OnAttack)
+            {
+                playerClass.player.attackState = PlayerClass.AttackState.OffAttack;
+            }
+            else
+            {
+                playerClass.player.attackState = PlayerClass.AttackState.OnAttack;
+            }
+        }
+    }
     void Update()
     {
         if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
@@ -30,12 +74,28 @@ public class PlayerController : MonoBehaviour
             playerClass.player.state = PlayerClass.State.death;
             return;
         }
+        if (playerClass.player.attackState == PlayerClass.AttackState.OnAttack)
+        {
+            delta += Time.deltaTime;
+        }
+        if (attackSpan < delta)
+        {
+            delta = 0;
+            if (bossClass.boss.weakstate == BossClass.WeakState.hide)//弱点が隠れているとき耐性で攻撃を軽減する
+            {
+                bossClass.boss.hp -= ((int)playerClass.player.Atack(5) / bossClass.boss.difensepower);
+            }
+            else//弱点が露出していると耐性なしで攻撃を通す
+            {
+                bossClass.boss.hp -= ((int)playerClass.player.Atack(5));
+            }
+        }
         //移動処理&方向処理---------------------------------------------------------------
 
         // 左右キーの入力取得
         float input = Input.GetAxisRaw("Horizontal");
         // 入力方向に応じて角度を変化させる
-        angle += speed * input * Time.deltaTime;
+        angle += playerClass.player.speed * input * Time.deltaTime;
 
         // 角度からX座標を計算
         float x = Mathf.Cos(angle) * radius;

@@ -1,21 +1,20 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-public enum SpotterState { Equipment, unarmed };//覗いている・覗いていないの状態管理
 
 public class Spotter_controller : MonoBehaviour
 {
-    public SpotterState spoterstate = SpotterState.unarmed;
     [SerializeField] Spotter_ZoomIn_ZoomOut ZoomCamera;
     [SerializeField] Spotter_Vision vision;
+    [SerializeField] PlayerClassAcces playerClass;
+    [SerializeField] PlayerController playerController;
     [Header("スコープ状態になるまでの前隙")]
     [SerializeField] private float beforescopeDeray = 0f;
     [Header("スコープ状態になるまでの後隙")]
     [SerializeField] private float afterscopeDeray = 0f;
     private float tmp = 0f;
-    private PlayerClassAcces playerClass;
     void Awake()
     {
-        spoterstate = SpotterState.unarmed;
+        playerClass.player.spoterstate = PlayerClass.SpotterState.unarmed;
         playerClass = GetComponent<PlayerClassAcces>();
     }
 
@@ -30,12 +29,14 @@ public class Spotter_controller : MonoBehaviour
         if (value.isPressed)//Spotterボタンが押された時
         {
             tmp = 0;
-            spoterstate = SpotterState.Equipment;
+            playerController.playerClass.player.speed = playerController.defaultwarkspeed / 2;
+            playerClass.player.spoterstate = PlayerClass.SpotterState.Equipment;
         }
         else//Spotterボタンが離された時
         {
             tmp = 0;
-            spoterstate = SpotterState.unarmed;
+            playerController.playerClass.player.speed = playerController.defaultwarkspeed;
+            playerClass.player.spoterstate = PlayerClass.SpotterState.unarmed;
         }
     }
 
@@ -44,13 +45,13 @@ public class Spotter_controller : MonoBehaviour
         // 死亡またはスタンの時は強制的に解除して処理を終了する
         if (playerClass.player.state == PlayerClass.State.death || playerClass.player.state == PlayerClass.State.stun)
         {
-            spoterstate = SpotterState.unarmed; // 状態もunarmedに強制リセット
+            playerClass.player.spoterstate = PlayerClass.SpotterState.unarmed; // 状態もunarmedに強制リセット
             ZoomCamera.ZoomOut();
             tmp = 0; // タイマーもリセット
             return;
         }
 
-        if (spoterstate == SpotterState.Equipment)
+        if (playerClass.player.spoterstate == PlayerClass.SpotterState.Equipment)
         {
             if (tmp > beforescopeDeray)
             {
@@ -58,7 +59,7 @@ public class Spotter_controller : MonoBehaviour
             }
             tmp += Time.deltaTime;
         }
-        else if (spoterstate == SpotterState.unarmed) // ifからelse ifにして排他にすると安全です
+        else if (playerClass.player.spoterstate == PlayerClass.SpotterState.unarmed) // ifからelse ifにして排他にすると安全です
         {
             if (tmp > afterscopeDeray)
             {

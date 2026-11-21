@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Boss
   m_EditorClassIdentifier: 
   scale: 10
-  hp: 10000
-  atackpower: 100
-  difensepower: 100
+  hp: 300
+  atackpower: 10
+  difensepower: 50
+  speed: 0

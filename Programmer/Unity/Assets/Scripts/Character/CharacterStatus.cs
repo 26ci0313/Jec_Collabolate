@@ -7,4 +7,5 @@ public class CharacterStatus : ScriptableObject
     public int hp = 0;
     public int atackpower = 0;
     public int difensepower = 0;
+    public float speed = 0;
 }

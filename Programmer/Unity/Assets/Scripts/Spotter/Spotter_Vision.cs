@@ -1,16 +1,15 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class Spotter_Vision : MonoBehaviour
 {
     [Header("レイの最大射程距離")]
     public float rayDistance = 100f;
-    [SerializeField] Spotter_controller spotter;
+    public PlayerClassAcces playerClass;
     [SerializeField] BossClassAcces bossClass;
     public void Update()
     {
-        // 装備中（またはスキャン中）の状態のときのみ処理
-        if (spotter.spoterstate == SpotterState.Equipment)
+        // 装備中かつボスの弱点が隠れている状態のときのみ処理
+        if (playerClass.player.spoterstate == PlayerClass.SpotterState.Equipment && bossClass.boss.weakstate == BossClass.WeakState.hide)
         {
             // カメラの中央からレイを生成
             Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0f));

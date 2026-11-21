@@ -7,10 +7,9 @@ public class BossClass
     public int difensepower = 0;
 
     public enum State { normal, stun, death };
-    public State bossstate;
+    public State state;
     public enum WeakState { hide, ditected };
     public WeakState weakstate;
-
     public float Atack(float magnification)
     {
         return atackpower * magnification;

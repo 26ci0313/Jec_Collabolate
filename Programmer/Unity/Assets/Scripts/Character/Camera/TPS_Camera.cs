@@ -8,10 +8,10 @@ public class TPS_Camera : MonoBehaviour
     public float distance = 8f;//カメラとプレイヤーの距離
     public float height = 5f;//カメラの高さ
 
-    [SerializeField] Spotter_controller spotter;
+    public PlayerClassAcces playerClass;
     void LateUpdate()
     {
-        if (spotter.spoterstate == SpotterState.unarmed)
+        if (playerClass.player.spoterstate == PlayerClass.SpotterState.unarmed)
         {
             //カメラを中心に向ける
             Vector3 centerdirection = center.position - transform.position;

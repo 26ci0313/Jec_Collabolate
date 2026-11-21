@@ -7,7 +7,7 @@ public class Weak_Gauge_Contoroller : MonoBehaviour
     [SerializeField] private Image gaugeImage;
 
     [SerializeField] private float addSpeed = 10f; // 増加量
-    float weakhidetime = 0;//仮置きの弱点の有効化が切れるまでの時間
+    public float weakhidetime = 0;
 
     private float currentValue = 0f;
     private const float maxValue = 100f;          // 最大値
@@ -40,9 +40,12 @@ public class Weak_Gauge_Contoroller : MonoBehaviour
             if (weakhidetime > hidetime)
             {
                 bossClass.boss.weakstate = BossClass.WeakState.hide;
-                weakhidetime = 0;
                 Debug.Log("弱点が戻ったよ");
             }
+        }
+        else
+        {
+            weakhidetime = 0;
         }
 
     }

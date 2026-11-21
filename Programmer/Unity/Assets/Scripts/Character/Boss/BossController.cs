@@ -9,19 +9,10 @@ public class BossController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Keyboard.current.kKey.wasPressedThisFrame)
+        if (bossClass.boss.hp < 0)
         {
-            if (bossClass.boss.weakstate == BossClass.WeakState.hide)//Žã“_‚ª‰B‚ê‚Ä‚¢‚é‚Æ‚«‘Ï«‚ÅUŒ‚‚ðŒyŒ¸‚·‚é
-            {
-                bossClass.boss.hp -= ((int)playerClass.player.Atack(5) / bossClass.boss.difensepower);
-                Debug.Log("ƒ{ƒX‚ÌŽc‚èHP" + bossClass.boss.hp);
-            }
-            else//Žã“_‚ª˜Io‚µ‚Ä‚¢‚é‚Æ‘Ï«‚È‚µ‚ÅUŒ‚‚ð’Ê‚·
-            {
-                bossClass.boss.hp -= ((int)playerClass.player.Atack(5));
-                Debug.Log("ƒ{ƒX‚ÌŽc‚èHP" + bossClass.boss.hp);
-            }
-
+            bossClass.boss.hp = 0;
+            bossClass.boss.state = BossClass.State.death;
         }
     }
 }

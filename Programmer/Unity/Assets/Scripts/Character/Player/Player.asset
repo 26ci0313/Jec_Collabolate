@@ -14,5 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scale: 2
   hp: 100
-  atackpower: 10
+  atackpower: 20
   difensepower: 10
+  speed: 0

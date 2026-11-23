@@ -8,8 +8,7 @@ public class BossClass
 
     public enum State { normal, stun, death };
     public State state;
-    public enum WeakState { hide, ditected };
-    public WeakState weakstate;
+
     public float Atack(float magnification)
     {
         return atackpower * magnification;
@@ -26,5 +25,13 @@ public class BossClassAcces : MonoBehaviour
         boss.atackpower = bossstatus.atackpower;
         boss.difensepower = bossstatus.difensepower;
         Debug.Log("ボスのHP" + boss.hp + "ボスの攻撃力" + boss.atackpower + "ボスの防御力" + boss.difensepower);
+    }
+    private void Update()
+    {
+        if (boss.hp <= 0)
+        {
+            boss.hp = 0;
+            boss.state = BossClass.State.death;
+        }
     }
 }

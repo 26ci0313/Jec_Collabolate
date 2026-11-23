@@ -6,6 +6,13 @@ public class Weak_Gauge_Contoroller : MonoBehaviour
     [SerializeField] BossClassAcces bossClass;
     [SerializeField] private Image gaugeImage;
 
+    [Header("弱点の体力")]
+    public int bossweakHP = 100;
+    [Header("弱点破壊ダメージ")]
+    public int weakbreakdamage = 100;
+    public enum WeakState { hide, ditected, Destroyed };
+    public WeakState weakstate;
+
     [SerializeField] private float addSpeed = 10f; // 増加量
     public float weakhidetime = 0;
 
@@ -26,30 +33,48 @@ public class Weak_Gauge_Contoroller : MonoBehaviour
 
     private void Update()
     {
+        WeakDestroy();
+
+        WeakManegement();
+    }
+    public void DamageWeak(int Damage)
+    {
+        bossweakHP -= Damage;
+    }
+    private void WeakDestroy()
+    {
+        if (bossweakHP <= 0)
+        {
+            if (weakstate != WeakState.Destroyed)
+            {
+                bossweakHP = 0;
+                bossClass.boss.hp -= weakbreakdamage;
+                weakstate = WeakState.Destroyed;
+            }
+        }
+    }
+    private void WeakManegement()
+    {
         if (gaugeImage != null && currentValue >= maxValue)
         {
-            Debug.Log("弱点解析成功");
-            bossClass.boss.weakstate = BossClass.WeakState.ditected;
+            weakstate = WeakState.ditected;
             currentValue = 0f; // 成功時のリセット値
             UpdateGaugeUI();
         }
-        if (bossClass.boss.weakstate == BossClass.WeakState.ditected)
+        if (weakstate == WeakState.ditected)
         {
             float hidetime = 3;
             weakhidetime += Time.deltaTime;
             if (weakhidetime > hidetime)
             {
-                bossClass.boss.weakstate = BossClass.WeakState.hide;
-                Debug.Log("弱点が戻ったよ");
+                weakstate = WeakState.hide;
             }
         }
         else
         {
             weakhidetime = 0;
         }
-
     }
-
     // 外から値を直接設定する場合（0〜100の範囲）
     public void UpdateHp(float value)
     {

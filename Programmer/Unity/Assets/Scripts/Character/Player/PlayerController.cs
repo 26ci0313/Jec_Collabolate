@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour
 {
     public PlayerClassAcces playerClass;
     public BossClassAcces bossClass;
+    public Turret turret;
     private float angle; // ‰~üã‚ÌŒ»İˆÊ’u
     private float targetY = -0.9f;
     [SerializeField] private Transform center; // ‰~‚Ì’†S
@@ -14,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float defaultwarkspeed = 1.0f;
     [Header("UŒ‚•p“x")]
     [SerializeField] float attackSpan = 1;
-    [SerializeField] float delta = 0;
+    private float delta = 0;
     void Start()
     {
         // ƒvƒŒƒCƒ„[‚Æ‰~‚Ì’†S‚Æ‚ÌˆÊ’u‚Ì·‚ğ‹‚ß‚é
@@ -80,15 +81,9 @@ public class PlayerController : MonoBehaviour
         }
         if (attackSpan < delta)
         {
+            Transform target = turret.DetermineTarget();
             delta = 0;
-            if (bossClass.boss.weakstate == BossClass.WeakState.hide)//ã“_‚ª‰B‚ê‚Ä‚¢‚é‚Æ‚«‘Ï«‚ÅUŒ‚‚ğŒyŒ¸‚·‚é
-            {
-                bossClass.boss.hp -= ((int)playerClass.player.Atack(5) / bossClass.boss.difensepower);
-            }
-            else//ã“_‚ª˜Io‚µ‚Ä‚¢‚é‚Æ‘Ï«‚È‚µ‚ÅUŒ‚‚ğ’Ê‚·
-            {
-                bossClass.boss.hp -= ((int)playerClass.player.Atack(5));
-            }
+            turret.ShootAt(target);
         }
         //ˆÚ“®ˆ—&•ûŒüˆ—---------------------------------------------------------------
 
